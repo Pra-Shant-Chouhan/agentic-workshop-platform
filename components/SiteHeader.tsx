@@ -1,11 +1,13 @@
+import { OrganizationSwitcher, Show, SignInButton, SignUpButton, useAuth, UserButton } from '@clerk/nextjs';
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React from 'react'
+import { Button } from './ui/button';
 
 const SiteHeader = () => {
     const pathname = usePathname();
-    const isSignedIn = false; // Replace with your actual authentication logic
+    const { isSignedIn } = useAuth();
     const isLandingPage = pathname === "/";
     return (
         <header className="fixed inset-x-0 top-0 z-20 flex h-18 items-center justify-between border-b border-white/6 bg-background/70 px-6 backdrop-blur-md md:px-10">
@@ -20,15 +22,28 @@ const SiteHeader = () => {
                 </nav>
             )}
             <div className="flex items-center gap-3">
-                {isSignedIn ? (
-                    <Link href="/dashboard" className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-                        Dashboard
-                    </Link>
-                ) : (
-                    <Link href="/login" className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-                        Sign in
-                    </Link>
-                )}
+                <Show when="signed-out">
+                    <SignInButton mode="modal">
+                        <Button variant="ghost" size="sm">Sign in</Button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                        <Button size="sm">Get started</Button>
+                    </SignUpButton>
+                </Show>
+                <Show when="signed-in">
+                    {/* Membership-optional: hidePersonal=false lets a solo user stay on their personal
+              account instead of being forced to create/join an org. */}
+                    <OrganizationSwitcher afterCreateOrganizationUrl="/dashboard" afterSelectOrganizationUrl="/dashboard" />
+                    {isLandingPage ? (
+                        <Button asChild size="sm">
+                            <Link href="/dashboard">Dashboard</Link>
+                        </Button>
+                    ) : (
+                        <></>
+                        // <PlanButton />
+                    )}
+                    <UserButton />
+                </Show>
             </div>
         </header>
     )

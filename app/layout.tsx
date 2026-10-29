@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/ui/themes";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -31,16 +33,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, bricolage.variable)}
+    <ClerkProvider
+      appearance={{
+        theme: dark,
+        variables: { colorPrimary: "oklch(0.74 0.16 55)" },
+      }}
     >
-      <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          <AppShell>{children}</AppShell>
-        </TooltipProvider>
-        <Toaster richColors />
-      </body>
-    </html>
+      <html
+        lang="en"
+        className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, bricolage.variable)}
+      >
+        <body className="min-h-full flex flex-col">
+          <TooltipProvider>
+            <AppShell>{children}</AppShell>
+          </TooltipProvider>
+          <Toaster richColors />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
