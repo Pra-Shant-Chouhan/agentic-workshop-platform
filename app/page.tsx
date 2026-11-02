@@ -5,6 +5,8 @@ import Link from "next/link";
 import { MapAnnotations } from "./_components/MapAnnotation";
 import { AUDIENCES, STEPS, SURFACES } from "./_data/landing";
 import PricingPlans from "@/components/PricingPlans";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PricingTable } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -143,6 +145,19 @@ export default function Home() {
             Upgrade just yourself, or your whole team, billed per member.
           </p>
         </div>
+        <Tabs defaultValue="user" className="mx-auto max-w-5xl items-center gap-10">
+          <TabsList>
+            <TabsTrigger value="user">Personal</TabsTrigger>
+            <TabsTrigger value="organization">Team</TabsTrigger>
+          </TabsList>
+          <TabsContent value="user" className="w-full">
+            <PricingTable for="user" />
+
+          </TabsContent>
+          <TabsContent value="organization" className="w-full">
+            <PricingTable for="organization" />
+          </TabsContent>
+        </Tabs>
         <PricingPlans />
       </section>
 
