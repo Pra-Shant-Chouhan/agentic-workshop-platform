@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React from 'react'
 import { Button } from './ui/button';
+import PlanButton from './PlanButton';
 
 const SiteHeader = () => {
     const pathname = usePathname();
@@ -39,8 +40,7 @@ const SiteHeader = () => {
                             <Link href="/dashboard">Dashboard</Link>
                         </Button>
                     ) : (
-                        <></>
-                        // <PlanButton />
+                        <PlanButton />
                     )}
                     <UserButton />
                 </Show>
