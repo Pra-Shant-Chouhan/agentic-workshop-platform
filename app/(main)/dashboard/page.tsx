@@ -7,6 +7,8 @@ import { KanbanSquare, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react'
+import RecentWorkspaces from './_components/RecentWorkspaces';
+import WorkspaceDialog from '@/components/WorkspaceDialog';
 
 const DashboardPage = async () => {
     const user = await checkUser();
@@ -48,14 +50,25 @@ const DashboardPage = async () => {
                                 </Link>
                             </Button>
                         )}
-                        <Button variant="outline" size="sm" className="gap-1.5">
-                            <Plus className="size-4" />
-                            New workspace
-                        </Button>
+                        <WorkspaceDialog
+                            trigger={<Button variant="outline" size="sm" className="gap-1.5">
+                                <Plus className="size-4" />
+                                New workspace
+                            </Button>}
+
+                        />
 
                     </div>
                 </div>
 
+                {workspaces.length === 0 ? (
+                    <p className="rounded-xl border border-dashed border-white/10 py-10 text-center text-sm text-muted-foreground">
+                        No workspaces yet. Describe what you want to plan above to start
+                        one.
+                    </p>
+                ) : (
+                    <RecentWorkspaces workspaces={recent} />
+                )}
             </section>
         </div>
     )
