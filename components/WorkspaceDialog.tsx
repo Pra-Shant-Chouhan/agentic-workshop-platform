@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { useRouter } from 'next/router'
 
-const WorkspaceDialog = ({ trigger }: React.ReactNode) => {
+const WorkspaceDialog = ({ trigger }: { trigger: React.ReactNode }) => {
     const [open, setOpen] = useState(false)
     return (
         <Dialog open={open} onOpenChange={setOpen}>
